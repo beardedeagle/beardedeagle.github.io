@@ -1,0 +1,178 @@
+---
+layout: layouts/base.njk
+title: Resume
+description: Public web rendering of Randy Thompson's resume covering distributed systems, security platforms, and AI and agentic infrastructure.
+---
+
+<section class="resume-page">
+  <div class="resume-sheet">
+    <header class="resume-sheet__header">
+      <h1 class="resume-sheet__name">Randy L. Thompson</h1>
+      <p class="resume-sheet__title">Senior Software Development Engineer | Distributed Systems | Security Platforms | AI &amp; Agentic Infrastructure</p>
+      <p class="resume-sheet__contact">
+        <a href="{{ site.linkedin }}" target="_blank" rel="noopener">linkedin.com/in/rlthompson1987</a>
+      </p>
+      <div class="resume-sheet__notice">
+        <p>For the full downloadable resume and direct contact details, see <a href="{{ site.linkedin }}" target="_blank" rel="noopener">LinkedIn</a>.</p>
+      </div>
+    </header>
+
+    <section class="resume-block">
+      <h2 class="resume-block__heading">Professional Summary</h2>
+      <p class="resume-block__prose">
+        Polyglot software engineer and systems architect with 22+ years of experience spanning operations, SRE, networking,
+        security engineering, and software development. Over 14 years at GoDaddy, I have designed and built production-critical
+        security infrastructure, control planes, and policy-driven platforms operating at scale across multi-datacenter,
+        multi-cloud environments. Prior to GoDaddy, I served as a Systems Security Engineer at IBM and held multiple signal
+        operations MOS classifications in the U.S. Army.
+      </p>
+      <p class="resume-block__prose">
+        Fluent in over a dozen programming languages with experience spanning bare-metal networking through distributed
+        application architectures, I have spent my career working across the full depth of the stack, favoring both breadth and
+        depth. I am a rapid learner with a track record of adopting unfamiliar technologies and delivering production systems
+        within weeks. I favor small, composable interfaces, minimal coupling, clear ownership boundaries, and code that
+        communicates its intent without requiring a tour guide. I build systems that enable experimentation without turning
+        production into a casino.
+      </p>
+    </section>
+
+    <section class="resume-block">
+      <h2 class="resume-block__heading">Core Competencies</h2>
+      <ul class="resume-list resume-list--columns">
+        <li>Distributed Systems Design</li>
+        <li>Fault-Tolerant Architecture</li>
+        <li>Security Engineering (InfoSec)</li>
+        <li>Self-Healing Systems</li>
+        <li>Multi-Agent Orchestration</li>
+        <li>Control Planes &amp; Policy-as-Code</li>
+        <li>Network Microsegmentation</li>
+        <li>CI/CD &amp; Build Automation</li>
+        <li>Containerization &amp; Kubernetes</li>
+        <li>Agentic AI &amp; LLM Integration</li>
+        <li>Platform &amp; Service Architecture</li>
+        <li>Cloud Migration (AWS)</li>
+        <li>Threat Modeling &amp; Compliance</li>
+        <li>API Design (REST, GraphQL)</li>
+        <li>Scrum / Agile Leadership</li>
+      </ul>
+    </section>
+
+    <section class="resume-block">
+      <h2 class="resume-block__heading">Technical Proficiency</h2>
+      <div class="resume-facts">
+        <div class="resume-facts__item">
+          <h3 class="resume-facts__label">Languages</h3>
+          <p class="resume-facts__value">Rust, Elixir, Erlang, Python, Go, TypeScript/JavaScript, C, C++, C#, Nim, Zig, Ruby, Crystal, Cosmopolitan C, SQL, Bash/Zsh, PHP</p>
+        </div>
+        <div class="resume-facts__item">
+          <h3 class="resume-facts__label">Frameworks &amp; Runtimes</h3>
+          <p class="resume-facts__value">Phoenix, OTP/BEAM, FastAPI, Django, Flask, React, Vue.js, Angular, Tokio, Actix, PyO3</p>
+        </div>
+        <div class="resume-facts__item">
+          <h3 class="resume-facts__label">Infrastructure &amp; DevOps</h3>
+          <p class="resume-facts__value">Kubernetes, Docker, OpenStack, AWS, SaltStack, Ansible, Puppet, Terraform, Jenkins, GitHub Actions, Artifactory, Consul, Vault, Sensu, Nginx, HAProxy</p>
+        </div>
+        <div class="resume-facts__item">
+          <h3 class="resume-facts__label">Data &amp; Observability</h3>
+          <p class="resume-facts__value">PostgreSQL, Mnesia, ELK Stack, Hadoop, Fluentd, Vector Databases, Semantic Caching, Prometheus, Grafana</p>
+        </div>
+        <div class="resume-facts__item">
+          <h3 class="resume-facts__label">Security</h3>
+          <p class="resume-facts__value">SSL/TLS Certificate Lifecycle, Process Sandboxing, JWT/OAuth, OWASP, Threat Modeling (STRIDE/PASTA), Zero-Trust Architecture, Network Microsegmentation, Cryptographic Implementation</p>
+        </div>
+        <div class="resume-facts__item">
+          <h3 class="resume-facts__label">AI &amp; LLM</h3>
+          <p class="resume-facts__value">Multi-Agent Orchestration, Agent Governance, MCP Servers, Semantic Search/Embeddings, RAG Systems, Agentic Coding Pipelines, PydanticAI, LangChain, CrewAI, Agents Framework</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="resume-block">
+      <h2 class="resume-block__heading">Professional Experience</h2>
+
+      <article class="resume-role">
+        <div class="resume-role__header">
+          <div>
+            <h3 class="resume-role__title">Senior Software Development Engineer</h3>
+            <p class="resume-role__org">GoDaddy</p>
+          </div>
+          <p class="resume-role__dates">Jul 2011 - Feb 2026</p>
+        </div>
+        <p class="resume-role__meta">Positions held: Sr. SDE, Sr. Security Engineer (Lead), Sr. SRE, Systems Administrator | Security/InfoSec Org | 14+ Years</p>
+        <ul class="resume-list">
+          <li>Enabled company-wide network microsegmentation by designing and building SPR (Security Policy Resolution) - a Rust-based policy-as-a-service platform with pluggable backends and enforcement point integrations, reducing lateral movement risk across the organization.</li>
+          <li>Designed and built Citadel, an agentic security platform providing sandboxing, execution governance, provenance tracking, and a browser extension for preventing data disclosure - establishing a comprehensive guardrails framework for safe adoption of AI-driven development workflows.</li>
+          <li>Provided architectural guidance and security oversight for gd-Maestro, a multi-agent orchestration framework, ensuring the platform's handoff protocols, agent governance model, and coherence validation met the organization's security and reliability standards.</li>
+          <li>Built CourtKit, a fully airgapped legal research platform distributed as a single Rust binary - embedding two LLMs, an embeddings model, inference engine, vector database, encrypted SQLite3 store, REST API, and web UI into one hermetically sealed package with zero external dependencies, enabling attorneys to perform semantic case law research with citation-aware generation and no risk of data exfiltration.</li>
+          <li>Designed and built a three-tier semantic caching system (L1 in process, L2 vector store on disk, L3 remote persistent storage) for LLM workflows, using embedding-based similarity and dissimilarity matching to reduce redundant inference costs while preventing false cache hits on semantically adjacent queries.</li>
+          <li>Eliminated single points of failure in the load balancing layer by engineering a Highly Available LBaaS platform - geo-aware, multi-DC, multi-cloud - deployed on self-managed Kubernetes with HAProxy, Keepalived, and Consul, achieving automatic failover with zero manual intervention.</li>
+          <li>Cut server provisioning times by over 60% by architecting a Core Provisioning Platform for multi-OS, multi-DC, multi-cloud CI/CD using SaltStack, Sensu, Jenkins, Artifactory, Consul, and Vault.</li>
+          <li>De-risked infrastructure costs and improved scalability by leading migration of organizational workloads from on-premises to AWS, converting monolithic services to microservices using cloud-native best practices.</li>
+          <li>Reduced certificate-related outage risk by building lifecycle management tooling that automated monitoring, renewal, revocation, and deployment of SSL certificates organization-wide.</li>
+          <li>Led engineering teams as Scrum Master, driving Agile adoption and delivery cadence across security infrastructure initiatives.</li>
+        </ul>
+      </article>
+
+      <article class="resume-role">
+        <div class="resume-role__header">
+          <div>
+            <h3 class="resume-role__title">Systems Security Engineer</h3>
+            <p class="resume-role__org">IBM</p>
+          </div>
+          <p class="resume-role__dates">Aug 2009 - Jul 2011</p>
+        </div>
+        <p class="resume-role__meta">Additional roles: Unix Systems Administrator, Windows Systems Administrator</p>
+        <ul class="resume-list">
+          <li>Maintained 95%+ KPI compliance across 170 company accounts by managing patch compliance, health checking, auditing, and cross-team engineering coordination across Windows, Linux, and Unix server environments.</li>
+        </ul>
+      </article>
+
+      <article class="resume-role">
+        <div class="resume-role__header">
+          <div>
+            <h3 class="resume-role__title">Signal Operations</h3>
+            <p class="resume-role__org">United States Army</p>
+          </div>
+          <p class="resume-role__dates">May 2005 - May 2012</p>
+        </div>
+        <p class="resume-role__meta">MOS: 25S (Satellite Communication Systems Specialist), 25N (Nodal Network Systems Operator-Maintainer), 25B (Information Technology Specialist)</p>
+        <ul class="resume-list">
+          <li>Planned, designed, tested, and oversaw WAN/LAN networks, telephone exchanges, and satellite communications systems. Built and maintained communications infrastructure across multiple signal operations disciplines.</li>
+          <li>Competed as a Blue Team member in the Cyber Defense Competition (CDC), 2003-2005.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="resume-block resume-block--compact">
+      <h2 class="resume-block__heading">Certifications</h2>
+      <ul class="resume-list">
+        <li>CompTIA Security+</li>
+        <li>SaltStack Certified Engineer - Credential ID: C78ACDD8, Issued April 2016</li>
+      </ul>
+    </section>
+
+    <section class="resume-block resume-block--compact">
+      <h2 class="resume-block__heading">Select Projects &amp; Open Source</h2>
+      <ul class="resume-list">
+        <li>Citadel (2025-Present) - Comprehensive agentic security platform with sandboxing, execution governance, provenance tracking, policy enforcement, and browser extension for AI development guardrails. [Rust, TypeScript]</li>
+        <li>coord (2025-Present) - Distributed multi-agent orchestration platform for agentic coders, coordinating heterogeneous AI tools through a unified communication mesh with phase-based orchestration and IPC daemon communication. [Python]</li>
+        <li>SmolCoder (2025-Present) - Terminal-based agentic coding environment supporting multi-agent modes (one-on-one, group memory, hierarchical orchestration, adversarial synthesis) with a Rust security kernel and PyO3 plugin bridge. [Rust, Python, PyO3, TypeScript]</li>
+        <li>Patchwork (2024-Present) - Automated code review and patching pipeline integrating static analysis, LLM-driven suggestions, and CI/CD workflows for continuous codebase improvement. [Rust]</li>
+        <li>ringer (2024-Present) - Concurrent multi-target call orchestrator with pluggable backends (Telnyx, Twilio, Plivo, Vonage), live TUI dashboard, circuit breakers, and GPS-correlated coverage mapping. [Python]</li>
+        <li>Vanguard (2017-Present) - Multi-platform, soft real-time, distributed, fault-tolerant, self-healing IFTTT service built on OTP supervision trees with hot code reloading. [Elixir, Erlang, TypeScript]</li>
+        <li>Mnesiac (2017-Present) - Auto-clustering and replication library for Erlang Mnesia databases, enabling transparent distributed data replication across BEAM clusters. [Elixir]</li>
+        <li>Semantic Cache (2025-Present) - Three-tier caching architecture (L0 in-process, L1 vector store, L2 persistent) with embedding-based similarity search for LLM response caching. [Rust]</li>
+        <li>CourtKit (2025-Present) - Airgapped legal research platform compiled into a single Rust binary. Self-contained: two LLMs, embeddings model, inference engine, vector DB, encrypted SQLite3, REST API, and web UI. Zero network dependencies, distributed as .pkg/.dmg. [Rust]</li>
+        <li>Open Source &amp; Community: Member, Erlang Ecosystem Foundation (EEF) Build &amp; Packaging WG. SaltStack contributor (Tiamat). SaltConf speaker.</li>
+      </ul>
+    </section>
+
+    <section class="resume-block resume-block--compact">
+      <h2 class="resume-block__heading">Education</h2>
+      <ul class="resume-list">
+        <li>A.A., Computer Software Engineering (In Progress) | University of Phoenix</li>
+        <li>U.S. Army Signal Schools - Network Systems, Information Technology, and Satellite Communications</li>
+      </ul>
+    </section>
+  </div>
+</section>

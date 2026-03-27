@@ -8,7 +8,6 @@ export default function(eleventyConfig) {
   // Pass through static assets
   eleventyConfig.addPassthroughCopy("src/css");
   eleventyConfig.addPassthroughCopy("src/js");
-  eleventyConfig.addPassthroughCopy("assets");
 
   // Collection: all projects sorted by display order
   eleventyConfig.addCollection("projects", function(collectionApi) {
