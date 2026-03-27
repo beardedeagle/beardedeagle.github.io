@@ -1,0 +1,63 @@
+---
+layout: layouts/base.njk
+title: Projects
+---
+
+<section>
+  <h1 class="hero__name" style="margin-bottom: var(--sp-md);">Projects</h1>
+  <p class="hero__role" style="margin-bottom: var(--sp-2xl);">
+    Secure infrastructure, AI agent tooling, and distributed systems — built across the BEAM, Rust, and Python ecosystems.
+  </p>
+</section>
+
+{% set available = collections.projects | available %}
+{% set upcoming = collections.projects | upcoming %}
+
+{% if available.length %}
+<section>
+  <h2 class="section-heading">Public Repos</h2>
+  <div class="project-grid">
+    {% for project in available %}
+    <article class="project-card">
+      <div class="project-card__header">
+        <h3 class="project-card__title">{{ project.data.title }}</h3>
+        {% status project.data.status %}
+      </div>
+      <p class="project-card__tagline">{{ project.data.tagline }}</p>
+      <div class="project-card__stack">
+        {% for t in project.data.stack %}<span class="tech-tag">{{ t }}</span>{% endfor %}
+      </div>
+      <div class="project-card__footer">
+        <a href="{{ project.url }}" class="project-card__link">Details →</a>
+        {% if project.data.repo %}
+        <a href="{{ project.data.repo }}" class="project-card__link" target="_blank" rel="noopener">Source ↗</a>
+        {% endif %}
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if upcoming.length %}
+<section>
+  <h2 class="section-heading">Private Repos</h2>
+  <div class="project-grid">
+    {% for project in upcoming %}
+    <article class="project-card">
+      <div class="project-card__header">
+        <h3 class="project-card__title">{{ project.data.title }}</h3>
+        {% status project.data.status %}
+      </div>
+      <p class="project-card__tagline">{{ project.data.tagline }}</p>
+      <div class="project-card__stack">
+        {% for t in project.data.stack %}<span class="tech-tag">{{ t }}</span>{% endfor %}
+      </div>
+      <div class="project-card__footer">
+        <a href="{{ project.url }}" class="project-card__link">Details →</a>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}

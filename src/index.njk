@@ -1,0 +1,89 @@
+---
+layout: layouts/base.njk
+title: Home
+---
+
+<section class="hero">
+  <p class="hero__greeting">// systems architect + software engineer + security engineer</p>
+  <h1 class="hero__name">Randy Thompson</h1>
+  <p class="hero__role">
+    22+ years building distributed systems, security platforms, and the tooling that keeps critical infrastructure running.
+  </p>
+  <p class="hero__summary">
+    Across <strong>Signal Operations in the U.S. Army</strong>, <strong>systems security and administration at IBM</strong>,
+    and nearly <strong>15 years at GoDaddy</strong>, I worked across signal operations, systems administration,
+    networking, site reliability engineering, software development, and security engineering. The constant
+    was designing and operating complex production-critical systems at scale, then building the tooling and
+    guardrails that made them safer, more resilient, and easier to run.
+  </p>
+  <p class="hero__summary">
+    The projects below reflect that mix: <strong>security that's structural, not bolted on</strong>,
+    <strong>infrastructure that earns its uptime</strong>, and <strong>agentic systems that are governed instead of improvised</strong>.
+  </p>
+
+  <div class="hero__domain-group">
+    <p class="hero__domain-label">// core disciplines</p>
+    <div class="hero__domains">
+      <span class="domain-tag">Systems Architecture</span>
+      <span class="domain-tag">Software Engineering</span>
+      <span class="domain-tag">Security Engineering</span>
+      <span class="domain-tag">Distributed Systems</span>
+      <span class="domain-tag">AI Agent Infrastructure</span>
+      <span class="domain-tag">Platform Engineering</span>
+      <span class="domain-tag">Site Reliability Engineering</span>
+      <span class="domain-tag">Networking</span>
+    </div>
+  </div>
+
+  <div class="hero__domain-group">
+    <p class="hero__domain-label">// languages / ecosystems</p>
+    <div class="hero__domains">
+      <span class="domain-tag">Rust</span>
+      <span class="domain-tag">Elixir</span>
+      <span class="domain-tag">Erlang</span>
+      <span class="domain-tag">Python</span>
+      <span class="domain-tag">Go</span>
+      <span class="domain-tag">TypeScript / JavaScript</span>
+      <span class="domain-tag">C</span>
+      <span class="domain-tag">C++</span>
+      <span class="domain-tag">C#</span>
+      <span class="domain-tag">Nim</span>
+      <span class="domain-tag">Zig</span>
+      <span class="domain-tag">Ruby</span>
+      <span class="domain-tag">Crystal</span>
+      <span class="domain-tag">Cosmopolitan C</span>
+      <span class="domain-tag">SQL</span>
+      <span class="domain-tag">Bash / Zsh</span>
+      <span class="domain-tag">PHP</span>
+    </div>
+  </div>
+
+  <div class="hero__cta-group">
+    <a href="/projects/" class="hero__cta">View all projects →</a>
+    <a href="{{ site.resume }}" class="hero__cta hero__cta--secondary" target="_blank" rel="noopener">Download resume ↗</a>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-heading">Featured Work</h2>
+  <div class="project-grid">
+    {% for project in collections.projects | head(6) %}
+    <article class="project-card">
+      <div class="project-card__header">
+        <h3 class="project-card__title">{{ project.data.title }}</h3>
+        {% status project.data.status %}
+      </div>
+      <p class="project-card__tagline">{{ project.data.tagline }}</p>
+      <div class="project-card__stack">
+        {% for t in project.data.stack %}<span class="tech-tag">{{ t }}</span>{% endfor %}
+      </div>
+      <div class="project-card__footer">
+        <a href="{{ project.url }}" class="project-card__link">Details →</a>
+        {% if project.data.repo %}
+        <a href="{{ project.data.repo }}" class="project-card__link" target="_blank" rel="noopener">Source ↗</a>
+        {% endif %}
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
