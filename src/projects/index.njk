@@ -28,9 +28,9 @@ title: Projects
         {% for t in project.data.stack %}<span class="tech-tag">{{ t }}</span>{% endfor %}
       </div>
       <div class="project-card__footer">
-        <a href="{{ project.url }}" class="project-card__link">Details →</a>
+        <a href="{{ project.url }}" class="project-card__link project-card__link--stretched">Details →</a>
         {% if project.data.repo %}
-        <a href="{{ project.data.repo }}" class="project-card__link" target="_blank" rel="noopener">Source ↗</a>
+        <a href="{{ project.data.repo }}" class="project-card__link project-card__link--secondary" target="_blank" rel="noopener">Source ↗</a>
         {% endif %}
       </div>
     </article>
@@ -54,7 +54,7 @@ title: Projects
         {% for t in project.data.stack %}<span class="tech-tag">{{ t }}</span>{% endfor %}
       </div>
       <div class="project-card__footer">
-        <a href="{{ project.url }}" class="project-card__link">Details →</a>
+        <a href="{{ project.url }}" class="project-card__link project-card__link--stretched">Details →</a>
       </div>
     </article>
     {% endfor %}

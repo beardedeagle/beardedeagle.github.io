@@ -294,6 +294,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 .project-card {
+  position: relative;
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: 4px;
@@ -302,7 +303,8 @@ img { max-width: 100%; height: auto; display: block; }
   display: flex;
   flex-direction: column;
 }
-.project-card:hover {
+.project-card:hover,
+.project-card:focus-within {
   border-color: var(--border-default);
   background: var(--bg-raised);
 }
@@ -351,6 +353,183 @@ img { max-width: 100%; height: auto; display: block; }
   font-family: var(--font-mono);
   font-size: 0.8rem;
   font-weight: 500;
+}
+
+.project-card__link--stretched::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.project-card__link--secondary {
+  position: relative;
+  z-index: 2;
+}
+
+.project-card__link:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ==========================================================================
+   Resume page
+   ========================================================================== */
+
+.resume-page {
+  max-width: var(--content-narrow);
+  margin: 0 auto;
+}
+
+.resume-sheet {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  padding: var(--sp-xl);
+}
+
+.resume-sheet__header {
+  padding-bottom: var(--sp-lg);
+  margin-bottom: var(--sp-xl);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.resume-sheet__name {
+  font-family: var(--font-mono);
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.1;
+  margin-bottom: var(--sp-sm);
+}
+
+.resume-sheet__title {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin-bottom: var(--sp-sm);
+}
+
+.resume-sheet__contact {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.resume-sheet__notice {
+  margin-top: var(--sp-md);
+  padding: var(--sp-md) var(--sp-lg);
+  border-left: 3px solid var(--accent);
+  background: var(--accent-glow);
+}
+
+.resume-sheet__notice p {
+  color: var(--text-secondary);
+}
+
+.resume-block {
+  margin-bottom: var(--sp-xl);
+}
+
+.resume-block:last-child {
+  margin-bottom: 0;
+}
+
+.resume-block__heading {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding-bottom: var(--sp-sm);
+  margin-bottom: var(--sp-md);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.resume-block__prose {
+  color: var(--text-secondary);
+  line-height: 1.75;
+}
+
+.resume-block__prose + .resume-block__prose {
+  margin-top: var(--sp-md);
+}
+
+.resume-list {
+  padding-left: 1.15rem;
+  color: var(--text-secondary);
+}
+
+.resume-list li + li {
+  margin-top: 0.55rem;
+}
+
+.resume-list--columns {
+  columns: 2;
+  column-gap: var(--sp-xl);
+}
+
+.resume-list--columns li {
+  break-inside: avoid;
+}
+
+.resume-facts {
+  display: grid;
+  gap: var(--sp-md);
+}
+
+.resume-facts__item {
+  display: grid;
+  grid-template-columns: 12rem 1fr;
+  gap: var(--sp-md);
+}
+
+.resume-facts__label {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.resume-facts__value {
+  color: var(--text-secondary);
+}
+
+.resume-role {
+  margin-bottom: var(--sp-lg);
+}
+
+.resume-role:last-child {
+  margin-bottom: 0;
+}
+
+.resume-role__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-lg);
+  margin-bottom: var(--sp-xs);
+}
+
+.resume-role__title {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.resume-role__org,
+.resume-role__dates,
+.resume-role__meta {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.resume-role__meta {
+  margin-bottom: var(--sp-md);
 }
 
 /* ==========================================================================
@@ -615,5 +794,19 @@ img { max-width: 100%; height: auto; display: block; }
   }
   .hero {
     padding: var(--sp-xl) 0;
+  }
+  .resume-sheet {
+    padding: var(--sp-lg);
+  }
+  .resume-list--columns {
+    columns: 1;
+  }
+  .resume-facts__item {
+    grid-template-columns: 1fr;
+    gap: var(--sp-xs);
+  }
+  .resume-role__header {
+    flex-direction: column;
+    gap: var(--sp-sm);
   }
 }

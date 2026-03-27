@@ -10,11 +10,11 @@ title: Home
     22+ years building distributed systems, security platforms, and the tooling that keeps critical infrastructure running.
   </p>
   <p class="hero__summary">
-    Across <strong>Signal Operations in the U.S. Army</strong>, <strong>systems security and administration at IBM</strong>,
-    and nearly <strong>15 years at GoDaddy</strong>, I worked across signal operations, systems administration,
-    networking, site reliability engineering, software development, and security engineering. The constant
-    was designing and operating complex production-critical systems at scale, then building the tooling and
-    guardrails that made them safer, more resilient, and easier to run.
+    My career spans the <strong>U.S. Army</strong>, <strong>IBM</strong>, and nearly <strong>15 years at GoDaddy</strong>,
+    with roles in signal operations, systems administration, systems security administration, networking,
+    site reliability engineering, software engineering, and security engineering. The constant was designing
+    and operating complex production-critical systems at scale, then building the tooling and guardrails that
+    made them safer, more resilient, and easier to run.
   </p>
   <p class="hero__summary">
     The projects below reflect that mix: <strong>security that's structural, not bolted on</strong>,
@@ -60,7 +60,7 @@ title: Home
 
   <div class="hero__cta-group">
     <a href="/projects/" class="hero__cta">View all projects →</a>
-    <a href="{{ site.resume }}" class="hero__cta hero__cta--secondary" target="_blank" rel="noopener">Download resume ↗</a>
+    <a href="{{ site.resume }}" class="hero__cta hero__cta--secondary">View resume →</a>
   </div>
 </section>
 
@@ -78,9 +78,9 @@ title: Home
         {% for t in project.data.stack %}<span class="tech-tag">{{ t }}</span>{% endfor %}
       </div>
       <div class="project-card__footer">
-        <a href="{{ project.url }}" class="project-card__link">Details →</a>
+        <a href="{{ project.url }}" class="project-card__link project-card__link--stretched">Details →</a>
         {% if project.data.repo %}
-        <a href="{{ project.data.repo }}" class="project-card__link" target="_blank" rel="noopener">Source ↗</a>
+        <a href="{{ project.data.repo }}" class="project-card__link project-card__link--secondary" target="_blank" rel="noopener">Source ↗</a>
         {% endif %}
       </div>
     </article>
