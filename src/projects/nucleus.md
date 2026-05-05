@@ -3,7 +3,7 @@ layout: layouts/project.njk
 title: Nucleus
 tagline: "TypeScript microkernel for agent systems. Sandboxed plugins, mediated host contexts, declarative security, and kernel-level observability."
 status: upcoming
-order: 10
+order: 11
 stack:
   - TypeScript
   - Bun

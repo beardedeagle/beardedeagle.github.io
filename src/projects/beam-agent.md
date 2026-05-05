@@ -3,7 +3,7 @@ layout: layouts/project.njk
 title: BeamAgent
 tagline: "BEAM-native SDKs for multi-backend agents. Unified sessions, routing, policy, memory, audit, and capability parity across runtimes."
 status: available
-order: 2
+order: 3
 stack:
   - Erlang/OTP
   - Elixir

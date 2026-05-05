@@ -3,7 +3,7 @@ layout: layouts/project.njk
 title: Semantic Cache
 tagline: "Tiered semantic/object cache with vector and object storage. Custom L0 hot path, LanceDB warm tier, adaptive thresholds, and diversity-aware retrieval."
 status: upcoming
-order: 7
+order: 8
 stack:
   - Rust
   - LanceDB

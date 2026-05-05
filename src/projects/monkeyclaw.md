@@ -3,7 +3,7 @@ layout: layouts/project.njk
 title: MonkeyClaw
 tagline: "Secure-by-default BEAM-native AI workspace. LiveView dashboard, multi-backend chat, plug extensions, and BeamAgent-backed sessions."
 status: available
-order: 1
+order: 2
 stack:
   - Elixir
   - Phoenix

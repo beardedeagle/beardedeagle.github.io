@@ -3,7 +3,7 @@ layout: layouts/project.njk
 title: ringer
 tagline: "Telephony validation harness for concurrent multi-target calling. Fair source rotation, backend-aware routing, rate limiting, and live TUI metrics."
 status: available
-order: 4
+order: 7
 stack:
   - Python
   - Typer

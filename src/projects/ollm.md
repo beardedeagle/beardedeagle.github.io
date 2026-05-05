@@ -3,7 +3,7 @@ layout: layouts/project.njk
 title: oLLM
 tagline: "Optimization-driven local inference on tiny VRAM. Built to fit 120B to 160B-class models onto 8GB hardware without quantizing away fidelity."
 status: available
-order: 3
+order: 4
 stack:
   - Python
   - PyTorch
