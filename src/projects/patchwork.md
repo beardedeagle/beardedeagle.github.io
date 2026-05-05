@@ -3,7 +3,7 @@ layout: layouts/project.njk
 title: Patchwork
 tagline: "Context-preparation engine for code and rich documents. Semantic compression, OCR-aware ingestion, and prompt-ready output for downstream models."
 status: upcoming
-order: 9
+order: 10
 stack:
   - Rust
   - ONNX Runtime

@@ -3,7 +3,7 @@ layout: layouts/project.njk
 title: SmolCoder
 tagline: "Terminal-first multi-agent coding assistant. In-TUI editor, rich chat rendering, MCP and plugin extensibility, persistent memory, and built-in governance."
 status: upcoming
-order: 8
+order: 9
 stack:
   - Python
   - smolagents
