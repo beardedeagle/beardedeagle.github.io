@@ -1,11 +1,12 @@
 ---
 layout: layouts/project.njk
 title: devlocal
-tagline: "Self-hosted, zero-inbound dev-services lab where AI agents are first-class users. Trust-tiered network, encryption on every hop, ephemeral contained agents, and a paired deny test for every permit."
-description: "devlocal: a security-first dev-services lab where AI agents work as first-class users, built on trust zones, mTLS everywhere, and contained ephemeral agents."
+tagline: "A self-hosted engineering shop staffed by AI engineers. Hired, onboarded and handed issues like anyone else, and contained like nothing else: trust-tiered network, encryption on every hop, ephemeral sandboxed runs."
+description: "devlocal: a self-hosted engineering shop where AI agents are hired, onboarded and assigned issues like any other engineer, inside a lab secured on the assumption that every one of them could be compromised."
 status: upcoming
 order: 1.5
 stack:
+  - Elixir
   - OPNsense
   - Vault PKI
   - Authentik
@@ -17,17 +18,19 @@ stack:
 
 ## The Problem
 
-Most homelabs and most agent platforms make the same mistake: they trust the inside. Once something is past the edge it can talk to everything, read whatever credentials are lying around, and leave nothing behind that anyone would notice.
+Most agent platforms treat agents as tools: a process with an API key, bolted onto someone's laptop or a cloud sandbox, outside every system a real engineering team uses. That throws away the structure that makes engineers effective, and it throws away the controls that keep a team safe.
 
-That posture collapses the moment agents become real users. An agent that clones repositories, sends mail, files tickets and spends money on model calls is running code nobody here wrote, under an identity with real rights. Prompt discipline is not a security boundary. Lateral movement matters as much as the front door, and so does what an agent can carry out of it.
+devlocal treats agents as engineers. An agentic engineer is hired, gets an SSO account, a mailbox, a forge account and a home directory, picks up issues, pushes branches, sends mail, files tickets and remembers what it learned. Same workflow as any other engineer on the team.
 
-devlocal exists because a dev environment for agents has to assume compromise everywhere, the agents included, and still keep the root of trust out of reach.
+The difference is who they are. Every engineer in devlocal is an AI running code nobody here wrote, steered by input nobody here fully controls. A prompt injection is a compromised employee. Lateral movement matters as much as the front door, and so does what an engineer can carry out the door. devlocal is a secure lab *because* of who works in it.
 
 ## Approach
 
-devlocal is a self-hosted stack of developer services: source control, gists, a package registry, mail, long-term agent memory, ticketing and full observability. AI agents are first-class tenants of it. Every agent has its own SSO identity, mailbox, forge account and certificates, and does its work in ephemeral, sandboxed runs.
+devlocal is a self-hosted engineering shop. A custom Elixir application is the front office: it hires agentic engineers, onboards them across the lab's services, and hands them issues to work through. Those services are the same ones a human team would use: source control, gists, a package registry, mail, long-term memory, ticketing and full observability.
 
-The whole lab is built on a handful of rules that hold everywhere, not just at the perimeter:
+Every engineer has a durable identity and an ephemeral runtime. The account, mailbox, forge history and home directory persist. Each task runs in a fresh, sandboxed run with credentials that die with it.
+
+Everything around them is built on rules that hold everywhere, not just at the perimeter:
 
 - **Zero inbound.** Remote access rides a self-hosted WireGuard tailnet coordinated off-site. Nothing on the internet can open a connection into the lab.
 - **Encryption on every hop.** Mutual TLS between services, DNS over TLS, NTS for time, NFS over RPC-with-TLS, LUKS2 under ZFS native encryption at rest. Anything that cannot be encrypted is a *named exception* with written containment, never a silent plaintext fallback.
@@ -46,7 +49,8 @@ flowchart TB
     ING --> SVC["Service-group VMs<br/>forge · memory · mail · ITSM · observability"]
     ING --> GW["Model gateway VM<br/>only path to any model"]
     AUTH["Authority host<br/>Vault · PKI · SSO · DNS-over-TLS"] -.->|"certs and policy"| ING
-    AG["Agents VM<br/>ephemeral sandboxed pods"] -->|"agent listener · mTLS"| ING
+    FO["Front office · Elixir<br/>hires engineers · assigns issues"] -->|"dispatches runs"| AG["Agents VM<br/>ephemeral sandboxed runs"]
+    AG -->|"agent listener · mTLS"| ING
     AG -->|"allowlisted egress"| BRK["Egress broker VM<br/>Citadel"]
     GW -->|"mTLS"| GPU["GPU nodes<br/>inference only"]
     GPU --- STO["Primary + backup storage<br/>encrypted at rest and in flight"]
@@ -60,6 +64,7 @@ flowchart TB
     style SVC fill:#1e3a5f,stroke:#22d3ee,color:#e2e8f0
     style GW fill:#1e3a5f,stroke:#22d3ee,color:#e2e8f0
     style AUTH fill:#1e3a5f,stroke:#10b981,color:#e2e8f0
+    style FO fill:#1e3a5f,stroke:#22d3ee,color:#e2e8f0
     style AG fill:#1e3a5f,stroke:#f59e0b,color:#e2e8f0
     style BRK fill:#1e3a5f,stroke:#f59e0b,color:#e2e8f0
     style GPU fill:#1a2332,stroke:#475569,color:#e2e8f0
@@ -71,6 +76,8 @@ flowchart TB
 Amber marks every place untrusted code or untrusted networks meet the lab: the edge, the agents, the egress broker and CI. Green marks the root of trust. Every arrow is an authenticated, encrypted hop, and every hop between VLANs passes through the firewall.
 
 ## Key Design Decisions
+
+**Engineers, not tools.** Agentic engineers are hired, onboarded and assigned issues through the same services a human team uses. Process, history and accountability come from the team's own systems, not from a bespoke agent harness.
 
 **The root of trust runs nothing else.** Vault, the PKI and SSO share a host with no applications, no log receivers, no container socket next to Vault, and no leg on the storage network. It runs no in-host span either, so its switch port stays an untagged access port. The most sensitive host in the lab cannot put a tagged frame on the wire.
 

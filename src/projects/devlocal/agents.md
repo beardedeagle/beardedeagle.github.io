@@ -18,7 +18,9 @@ stack:
 
 ## The Problem
 
-An agent that is a real user of a dev stack is a strange tenant. It holds an identity with real rights: it commits code, sends mail, files tickets and spends money on model calls. It also runs code nobody here wrote, steered by input nobody here fully controls. Treat it like a trusted employee and the first prompt injection owns the environment. Treat it like a stateless function and it loses everything that makes it useful.
+In devlocal, agents are engineers. They're hired through a custom Elixir front office, onboarded across the lab's services, and handed issues to work through, exactly like anyone else on the team. They commit code, send mail, file tickets and spend money on model calls, under identities with real rights.
+
+They also run code nobody here wrote, steered by input nobody here fully controls. Trust them like employees and the first prompt injection owns the environment. Treat them like stateless functions and they lose everything that makes an engineer useful: history, context, ownership.
 
 devlocal splits the two. **The agent's identity persists. Its runtime doesn't.** Every agent has a durable SSO account, mailbox, forge account and home directory. Every task runs in a fresh, sandboxed pod with a fresh certificate and a fresh model key, and all three are gone when the task ends.
 
@@ -35,7 +37,7 @@ Agents run as ephemeral pods in a single-node Kubernetes cluster inside their ow
 
 {% mermaid %}
 flowchart TB
-    ME["Me or another agent<br/>requests a task"] --> DSP["Dispatcher VM<br/>mints run credentials · drives the cluster"]
+    ME["Front office · Elixir<br/>hires engineers · assigns issues"] --> DSP["Dispatcher VM<br/>mints run credentials · drives the cluster"]
     DSP -->|"namespaced role · mTLS"| K8S["Agents VM · single-node cluster"]
     DSP -->|"sign run cert under the agent's own role"| VLT["Vault PKI<br/>authority host"]
     DSP -->|"mint and revoke run key"| GW["Model gateway VM<br/>aliases · budgets · spend · provider keys"]
@@ -88,7 +90,7 @@ A flow passes every layer it touches. No single layer is the boundary, because a
 
 | Rule | What the agents node enforces |
 | --- | --- |
-| K01 | Pod traffic forwards only out the node's own VLAN, toward the firewall. Pods never reach the node's listeners (kubelet, API server, etcd, SSH) or the hypervisor. |
+| K01 | Pod traffic forwards only out the node's own VLAN, toward the firewall, with one in-node exception: the cluster DNS service. Pods never reach the node's management listeners (kubelet, API server, etcd, SSH) or the hypervisor. |
 | K02 | Each pod veth's source address is pinned to that pod. Anything else is dropped. |
 | K03 | No masquerade for the pod network. The firewall writes rules per pod, not per node. |
 | K04 | Admission denies host networking, host PID and IPC, host paths and privileged pods cluster-wide, with one pinned exception for the network plugin. Agent pods must name the gVisor RuntimeClass. |
@@ -101,7 +103,7 @@ The cluster's control plane gets the same treatment. kagent's tool server runs w
 Agents are credential-less. Citadel runs inside each agent's container and the harness runs inside Citadel, so secrets never make it past Citadel. No long-lived secret ever enters the container, and the run's short-lived ones live only in Citadel, below the harness.
 
 - **Per-run model keys.** The dispatcher mints a model-gateway key for each run, scoped to the aliases that agent may use, with a budget, an expiry, and the agent and task IDs as metadata. Teardown deletes it. Expiry is the backstop.
-- **Per-run certificates.** Citadel generates the key and CSR inside the container. The dispatcher has Vault sign it under that agent's own PKI role, which can issue that agent's name and nothing else, with a lifetime no longer than the run. No CA key ever sits in the cluster beside agent code.
+- **Per-run certificates.** Citadel generates the key and CSR inside the container, and its node component records the CSR as a request object in the agent's namespace under its own narrowly scoped service account. The agent pod still has no token and no route out. The dispatcher, which only ever initiates connections, collects the request over the cluster API, has Vault sign it under that agent's own PKI role, which can issue that agent's name and nothing else, with a lifetime no longer than the run, and writes the certificate back the same way. The private key never leaves the container, and no CA key ever sits in the cluster beside agent code.
 - **Two checks at the door.** The agent listener requires the run's client certificate *and* an SSO session, and the certificate's agent name must equal the user SSO returns. A stolen session is useless with another agent's certificate, and the reverse.
 - **Secrets never make it past Citadel.** The run's key and certificate exist only inside Citadel. The harness has no path to them, no volume that holds them and no service-account token. Every outbound call the harness makes passes through Citadel, which attaches the run's identity on the way out (exception E11). The harness gets the access, never the credential.
 - **The dispatcher stands apart from the gateway.** The dispatcher holds gateway admin rights, Vault signing rights and a namespaced cluster role. It lives in its own VM, so a compromised model gateway doesn't hand over the power to mint runs.
@@ -135,22 +137,25 @@ That leaves three ways to define an agent. A declarative kagent agent needs no i
 
 {% mermaid %}
 sequenceDiagram
-    participant R as Requester
+    participant R as Front office
     participant D as Dispatcher
     participant G as Model gateway
     participant V as Vault
     participant K as kagent + sandbox
     participant P as Agent pod
-    R->>D: Task request
+    participant M as Me
+    R->>D: Issue assigned to an engineer
     D->>G: Mint run key (aliases, budget, expiry)
     D->>K: Create SandboxAgent (harness profile, allowlist)
     K->>P: Claim warm pod under gVisor
-    P->>D: CSR from Citadel
+    P->>K: Citadel records the CSR as a request object
+    D->>K: Collect the CSR over the cluster API
     D->>V: Sign under this agent's role, TTL ≤ run
+    D->>K: Write the certificate back for Citadel
     K->>P: Task over A2A
     P->>G: Model calls via Citadel and ingress
-    P-->>R: Tool needs approval
-    R-->>P: Approve or reject
+    P-->>M: Tool needs approval
+    M-->>P: Approve or reject
     P->>P: Save outputs to forge, mail or memory
     D->>K: Delete SandboxAgent
     D->>G: Revoke run key
@@ -166,7 +171,7 @@ Agents have no direct internet. Neither does the agents node.
 
 - Agent pods reach the internet only through **Citadel's egress broker**, in its own VM outside the agents VM. The broker authenticates the run's certificate, applies *that agent's* domain allowlist, and only then goes out over HTTPS.
 - The allowlist is enforced outside the sandbox. A pod whose in-pod allowlist is opened to everything is still refused by the broker for an unlisted domain.
-- The agents node uses the same broker for distro mirrors only, and pulls images only from the lab registry.
+- The agents node uses the same broker under its own node certificate, with a mirror-only policy for distro updates, and pulls images only from the lab registry. The node never reaches the agent listener.
 - Pods resolve names through cluster DNS, which forwards upstream over TLS only. Those host-local plaintext lookups are a named exception (E03) and are never copied to the sensor.
 
 ## Observability

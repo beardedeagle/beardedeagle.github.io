@@ -96,7 +96,7 @@ The DMZ and the private side never share a switch; they meet only inside the fir
 | --- | --- | --- |
 | DMZ | The edge box and its switch's management | Nothing. The edge only dials out. |
 | Authority | Vault, PKI and certificate push, Authentik, the DNS-over-TLS front | SSO checks from ingress, secret fetches from named VMs, DNS from the firewall, break-glass SSH. Nothing else. |
-| Ingress | The private reverse proxy, the agent listener and the agent egress broker | The edge proxy, agent pods, and pods asking the broker for egress. |
+| Ingress | The private reverse proxy, the agent listener and the agent egress broker | The edge proxy and agent pods; the agents node reaches the broker only, for distro mirrors, and never the agent listener. |
 | Service groups | Forge (git, gists, package registry), memory, mail, ITSM, observability, one VLAN each | Ingress only, plus named scrapes, log pushes, and CI runners to the forge. |
 | Model gateway | The model gateway and its database | Ingress, the memory service and the dispatcher. |
 | Agent control | The agent dispatcher | Nothing. It only starts connections. |
@@ -203,7 +203,7 @@ Rules come in families, and each family is enforced by a different device. A flo
 | X29 | Dispatcher → the agents cluster's API | mTLS, namespaced role | permit |
 | X30 | Dispatcher → model gateway, to mint and revoke run keys | mTLS, admin routes only | permit |
 | X31 | Dispatcher → Vault, to sign run certificates | mTLS plus AppRole bound to the dispatcher | permit |
-| X32 | Agent pods → the egress broker | mTLS, the run's certificate | permit |
+| X32 | Agent pods → the egress broker; the agents node → the egress broker for distro mirrors | mTLS: the run's certificate for pods (that agent's allowlist), the node certificate for the node (mirror-only policy) | permit |
 | X33 | Egress broker → internet, per agent allowlist | HTTPS | permit |
 | X34 | Mail → Authentik, to check users | mTLS | permit |
 | X35 | Agents node → the lab registry | mTLS, node certificate | permit |
@@ -263,7 +263,7 @@ CI runs code nobody here wrote, so it lives in its own enclave behind a second, 
 - **Egress is HTTPS only,** with private ranges, link-local, CGNAT, multicast and external DNS denied first, on all three filters.
 - **CI can't administer its own jailer.** The CI firewall's admin port forwards nothing and stays reachable with the lab firewall powered off. The runner side answers no UI and no SSH.
 
-**Independent denial is tested, not assumed.** One forbidden CI flow, a runner VM reaching the cluster zone for example, is opened on one of the three filters, and the next filter has to block it. The test runs once for each filter. Two firewalls running the same software are only independent if their configs, credentials and updates are, and this test is the proof.
+**Independent denial is tested, not assumed.** Each filter is tested in isolation. One forbidden CI flow, a runner VM reaching the cluster zone for example, is temporarily permitted on the *other two* filters, and the filter under test has to deny and log it on its own. The rules are restored, and the test repeats for each of the three filters. Opening only one filter would leave two possible blockers and prove nothing about either. Two firewalls running the same software are only independent if their configs, credentials and updates are, and this test is the proof.
 
 ## Storage That Treats Its Own Backup Host as Hostile
 

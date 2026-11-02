@@ -742,7 +742,7 @@ img { max-width: 100%; height: auto; display: block; }
   font-weight: 500;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   background: var(--bg-surface);
   white-space: nowrap;
 }
