@@ -708,6 +708,60 @@ img { max-width: 100%; height: auto; display: block; }
   font-style: italic;
 }
 
+.prose a {
+  text-decoration: underline;
+  text-decoration-color: rgba(34, 211, 238, 0.35);
+  text-underline-offset: 2px;
+}
+.prose a:hover { text-decoration-color: var(--text-primary); }
+
+.prose table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  margin-bottom: var(--sp-lg);
+  font-size: 0.85rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+}
+
+.prose th,
+.prose td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.prose th {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  background: var(--bg-surface);
+  white-space: nowrap;
+}
+
+.prose tr:last-child td { border-bottom: 0; }
+
+.prose td:first-child {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  min-width: 7rem;
+}
+
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--border-subtle);
+  margin: var(--sp-xl) 0 var(--sp-md);
+}
+
 /* Architecture note callout */
 .arch-note {
   background: var(--accent-dim);
