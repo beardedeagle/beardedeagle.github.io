@@ -1,0 +1,46 @@
+---
+layout: layouts/base.njk
+---
+{% set seriesPosts = collections.posts | seriesOf(series) %}
+<article class="post">
+  <header class="post__header">
+    {% if series %}<p class="post__eyebrow">// {{ series }} · part {{ part }} of {{ seriesPosts.length }}</p>{% endif %}
+    <h1 class="post__title">{{ title }}</h1>
+    {% if summary %}<p class="post__summary">{{ summary }}</p>{% endif %}
+    <p class="post__meta">
+      <time datetime="{{ page.date | isoDate }}">{{ page.date | readableDate }}</time>
+      <span aria-hidden="true">·</span> {{ content | readingTime }} min read
+      {% if project %}<span aria-hidden="true">·</span> <a href="{{ project }}">Project page</a>{% endif %}
+    </p>
+    {% if topics %}
+    <div class="post__topics">
+      {% for t in topics %}<span class="tech-tag">{{ t }}</span>{% endfor %}
+    </div>
+    {% endif %}
+  </header>
+
+  {% if seriesPosts.length > 1 %}
+  <nav class="post__series" aria-label="{{ series }} series">
+    <p class="post__series-label">// the {{ series }} series</p>
+    <ol>
+      {% for p in seriesPosts %}
+      <li>{% if p.url == page.url %}<span aria-current="page">{{ p.data.title }}</span>{% else %}<a href="{{ p.url }}">{{ p.data.title }}</a>{% endif %}</li>
+      {% endfor %}
+    </ol>
+  </nav>
+  {% endif %}
+
+  <div class="post__body prose">
+    {{ content | safe }}
+  </div>
+
+  <nav class="post__nav" aria-label="More writing">
+    {% for p in seriesPosts %}
+      {% if p.data.part == part - 1 %}<a class="post__nav-prev" href="{{ p.url }}">← {{ p.data.title }}</a>{% endif %}
+      {% if p.data.part == part + 1 %}<a class="post__nav-next" href="{{ p.url }}">{{ p.data.title }} →</a>{% endif %}
+    {% endfor %}
+    <a class="post__nav-all" href="/writing/">All writing</a>
+  </nav>
+</article>
+
+{% include "partials/diagram-scripts.njk" %}

@@ -3,6 +3,7 @@ layout: layouts/base.njk
 title: Home
 ---
 
+<div class="home-intro">
 <section class="hero">
   <p class="hero__greeting">// systems architect + software engineer + security engineer</p>
   <h1 class="hero__name">Randy Thompson</h1>
@@ -64,6 +65,20 @@ title: Home
     <a href="{{ site.resume }}" class="hero__cta hero__cta--secondary">View resume →</a>
   </div>
 </section>
+
+<aside class="home-writing" aria-labelledby="home-writing-label">
+  <p class="hero__domain-label" id="home-writing-label">// writing</p>
+  <ol class="home-writing__list">
+    {% for post in collections.posts | head(4) %}
+    <li class="home-writing__item">
+      <a class="home-writing__title" href="{{ post.url }}">{{ post.data.title }}</a>
+      <span class="home-writing__meta"><time datetime="{{ post.date | isoDate }}">{{ post.date | readableDate }}</time> · {{ post.content | readingTime }} min read</span>
+    </li>
+    {% endfor %}
+  </ol>
+  <a class="home-writing__all" href="/writing/">All writing →</a>
+</aside>
+</div>
 
 <section>
   <h2 class="section-heading">Featured Work</h2>

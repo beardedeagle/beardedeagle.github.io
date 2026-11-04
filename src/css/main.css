@@ -266,6 +266,204 @@ img { max-width: 100%; height: auto; display: block; }
   opacity: 1;
 }
 
+/* Home intro: hero on the left, latest writing in the open space on the right */
+.home-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(15rem, 19rem);
+  column-gap: var(--sp-2xl);
+  align-items: start;
+}
+
+.home-intro .hero {
+  max-width: var(--content-narrow);
+  min-width: 0;
+}
+
+.home-writing {
+  justify-self: end;
+  text-align: right;
+  padding-top: var(--sp-3xl);
+  min-width: 0;
+}
+
+.home-writing__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-md);
+  margin: var(--sp-sm) 0 var(--sp-lg);
+}
+
+.home-writing__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding-right: var(--sp-md);
+  border-right: 2px solid var(--border-default);
+  transition: border-color 0.15s ease;
+}
+.home-writing__item:hover,
+.home-writing__item:focus-within { border-right-color: var(--accent); }
+
+.home-writing__title {
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--text-primary);
+}
+.home-writing__title:hover { color: var(--accent); }
+.home-writing__title:focus-visible,
+.home-writing__all:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.home-writing__meta {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+.home-writing__all {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+@media (max-width: 1100px) {
+  .home-intro { grid-template-columns: minmax(0, 1fr); }
+  .home-writing {
+    justify-self: stretch;
+    text-align: left;
+    padding-top: 0;
+    margin-bottom: var(--sp-2xl);
+  }
+  .home-writing__item {
+    padding-right: 0;
+    padding-left: var(--sp-md);
+    border-right: 0;
+    border-left: 2px solid var(--border-default);
+  }
+  .home-writing__item:hover,
+  .home-writing__item:focus-within { border-left-color: var(--accent); }
+}
+
+/* ==========================================================================
+   Writing: index list and post pages
+   ========================================================================== */
+
+.writing-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-xl);
+  max-width: var(--content-narrow);
+}
+
+.writing-list__meta {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--sp-xs);
+}
+
+.writing-list__title {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: var(--sp-sm);
+}
+.writing-list__title a { color: var(--text-primary); }
+.writing-list__title a:hover { color: var(--accent); }
+
+.writing-list__summary {
+  color: var(--text-secondary);
+  max-width: 44rem;
+}
+
+.post {
+  max-width: var(--content-narrow);
+}
+
+.post__header {
+  padding-bottom: var(--sp-xl);
+  margin-bottom: var(--sp-xl);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.post__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  margin-bottom: var(--sp-md);
+}
+
+.post__title {
+  font-family: var(--font-mono);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 600;
+  line-height: 1.15;
+  margin-bottom: var(--sp-sm);
+}
+
+.post__summary {
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: var(--sp-md);
+}
+
+.post__meta {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--sp-md);
+}
+
+.post__topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-xs);
+}
+
+.post__series {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  padding: var(--sp-md) var(--sp-lg);
+  margin-bottom: var(--sp-xl);
+}
+
+.post__series-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+  margin-bottom: var(--sp-sm);
+}
+
+.post__series ol {
+  padding-left: var(--sp-lg);
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+}
+.post__series li + li { margin-top: var(--sp-xs); }
+.post__series [aria-current="page"] { color: var(--text-primary); font-weight: 500; }
+
+.post__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-md) var(--sp-xl);
+  margin-top: var(--sp-3xl);
+  padding-top: var(--sp-lg);
+  border-top: 1px solid var(--border-subtle);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+.post__nav a { color: var(--text-secondary); }
+.post__nav a:hover { color: var(--accent); }
+.post__nav-all { margin-left: auto; }
+
 /* ==========================================================================
    Section headings
    ========================================================================== */
@@ -810,6 +1008,124 @@ img { max-width: 100%; height: auto; display: block; }
   margin: 0 auto;
 }
 
+/* Diagram pan/zoom and the full-screen dialog (see /js/diagrams.js) */
+.mermaid-container { position: relative; }
+
+.mermaid-container .mermaid.is-zoomable {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  cursor: grab;
+}
+.mermaid-container .mermaid.is-zoomable:active { cursor: grabbing; }
+.mermaid-container .mermaid.is-zoomable svg {
+  width: 100%;
+  height: 100%;
+  max-width: none !important;
+}
+
+.diagram-expand {
+  position: absolute;
+  top: var(--sp-sm);
+  right: var(--sp-sm);
+  z-index: 1;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  background: var(--bg-raised);
+  border: 1px solid var(--border-default);
+  border-radius: 3px;
+  padding: 0.3rem 0.65rem;
+  cursor: pointer;
+}
+.diagram-expand:hover { border-color: var(--accent); color: var(--accent); }
+.diagram-expand:focus-visible,
+.diagram-dialog__close:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* svg-pan-zoom's built-in controls, recoloured for the dark theme. The library
+   injects its own black-on-white rules inside each SVG, so these are scoped
+   one level deeper to win. */
+.mermaid-container .svg-pan-zoom-control,
+.diagram-dialog .svg-pan-zoom-control { cursor: pointer; fill-opacity: 1; }
+.mermaid-container .svg-pan-zoom-control-background,
+.diagram-dialog .svg-pan-zoom-control-background {
+  fill: var(--bg-raised);
+  fill-opacity: 0.95;
+  stroke: var(--border-default);
+  stroke-width: 24;
+}
+.mermaid-container .svg-pan-zoom-control-element,
+.diagram-dialog .svg-pan-zoom-control-element { fill: var(--text-secondary); }
+.mermaid-container .svg-pan-zoom-control:hover .svg-pan-zoom-control-element,
+.diagram-dialog .svg-pan-zoom-control:hover .svg-pan-zoom-control-element { fill: var(--accent); }
+
+.diagram-dialog {
+  width: calc(100vw - 2rem);
+  height: calc(100dvh - 2rem);
+  max-width: none;
+  max-height: none;
+  margin: auto;
+  padding: 0;
+  color: var(--text-primary);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.diagram-dialog[open] { display: flex; flex-direction: column; }
+.diagram-dialog::backdrop { background: rgba(4, 7, 14, 0.82); }
+
+.diagram-dialog__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+  padding: var(--sp-sm) var(--sp-md);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.diagram-dialog__title {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.diagram-dialog__hint {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.diagram-dialog__close {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--bg-root);
+  background: var(--accent);
+  border: 0;
+  border-radius: 3px;
+  padding: 0.35rem 0.8rem;
+  cursor: pointer;
+}
+.diagram-dialog__stage {
+  flex: 1;
+  min-height: 0;
+  cursor: grab;
+}
+.diagram-dialog__stage:active { cursor: grabbing; }
+.diagram-dialog__stage svg { display: block; width: 100%; height: 100%; }
+
+html.has-diagram-dialog { overflow: hidden; }
+
+@media (max-width: 640px) {
+  .diagram-dialog { width: 100vw; height: 100dvh; border-radius: 0; border: 0; }
+  .diagram-dialog__hint { display: none; }
+  .diagram-dialog__close { margin-left: auto; }
+}
+
 /* ==========================================================================
    Footer
    ========================================================================== */
@@ -841,7 +1157,9 @@ img { max-width: 100%; height: auto; display: block; }
     gap: var(--sp-sm);
   }
   .site-nav__links {
-    gap: var(--sp-md);
+    gap: var(--sp-xs) var(--sp-md);
+    flex-wrap: wrap;
+    justify-content: center;
   }
   .project-grid {
     grid-template-columns: 1fr;

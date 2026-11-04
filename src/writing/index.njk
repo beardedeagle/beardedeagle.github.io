@@ -1,0 +1,30 @@
+---
+layout: layouts/base.njk
+title: Writing
+description: "Long-form technical write-ups on secure infrastructure, agent systems, and the design decisions behind them."
+eleventyExcludeFromCollections: true
+---
+
+<section>
+  <h1 class="hero__name" style="margin-bottom: var(--sp-md);">Writing</h1>
+  <p class="hero__role" style="margin-bottom: var(--sp-2xl);">
+    Long-form technical write-ups: how the systems are built, what they defend against, and why each decision was made.
+  </p>
+</section>
+
+<section>
+  <h2 class="section-heading">All Posts</h2>
+  <ol class="writing-list">
+    {% for post in collections.posts %}
+    <li class="writing-list__item">
+      <p class="writing-list__meta">
+        <time datetime="{{ post.date | isoDate }}">{{ post.date | readableDate }}</time>
+        {% if post.data.series %}<span aria-hidden="true">·</span> {{ post.data.series }} · part {{ post.data.part }}{% endif %}
+        <span aria-hidden="true">·</span> {{ post.content | readingTime }} min read
+      </p>
+      <h3 class="writing-list__title"><a href="{{ post.url }}">{{ post.data.title }}</a></h3>
+      {% if post.data.summary %}<p class="writing-list__summary">{{ post.data.summary }}</p>{% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+</section>
