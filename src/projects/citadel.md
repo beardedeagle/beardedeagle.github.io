@@ -37,3 +37,7 @@ The current focus includes agentic and autonomous workflows because that is wher
 **Fail closed, least privilege, explicit elevation.** Safe defaults matter more than convenience defaults. If the system cannot justify an action or apply the right boundary, the correct behavior is denial, not optimism.
 
 **Built for real workflows, not security theater.** The platform has to protect autonomous systems, local tools, browser-mediated workflows, and other host-active workloads without requiring users to constantly remember they are in a special mode.
+
+## In Practice
+
+[devlocal](/projects/devlocal/) runs Citadel as the containment boundary for every agentic engineer. Citadel wraps the harness inside each agent container, holds the run's credentials so the harness never touches them, and brokers egress against each agent's own allowlist. The full design is in [devlocal, Part 2: Agents as Tenants](/musings/devlocal-agents-as-tenants/).

@@ -1,0 +1,31 @@
+---
+layout: layouts/base.njk
+title: Musings
+description: "Equal parts architecture, threat model, and me arguing with myself."
+eleventyExcludeFromCollections: true
+---
+
+<section>
+  <h1 class="hero__name" style="margin-bottom: var(--sp-md);">Musings</h1>
+  <p class="hero__role" style="margin-bottom: var(--sp-2xl); max-width: 46rem; text-wrap: pretty;">
+    Things I've built, broken, or thought way too hard about. Mostly the last one.<br>
+    Equal parts architecture, threat model, and me arguing with myself.
+  </p>
+</section>
+
+<section>
+  <h2 class="section-heading">All Posts</h2>
+  <ol class="writing-list">
+    {% for post in collections.posts %}
+    <li class="writing-list__item">
+      <p class="writing-list__meta">
+        <time datetime="{{ post.date | isoDate }}">{{ post.date | readableDate }}</time>
+        {% if post.data.series %}<span aria-hidden="true">·</span> {{ post.data.series }} · part {{ post.data.part }}{% endif %}
+        <span aria-hidden="true">·</span> {{ post.content | readingTime }} min read
+      </p>
+      <h3 class="writing-list__title"><a href="{{ post.url }}">{{ post.data.title }}</a></h3>
+      {% if post.data.summary %}<p class="writing-list__summary">{{ post.data.summary }}</p>{% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+</section>

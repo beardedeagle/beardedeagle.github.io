@@ -1,10 +1,12 @@
 ---
-layout: layouts/project.njk
-title: "devlocal · Part 2: Agents as Tenants"
-tagline: "Persistent identity, ephemeral execution. AI agents as first-class users without trusting them: sandboxed runs, credentials that die with the task, one model gateway, and evidence for every action."
+title: "devlocal, Part 2: Agents as Tenants"
+summary: "Persistent identity, ephemeral execution. AI agents as first-class users without trusting them: sandboxed runs, credentials that die with the task, one model gateway, and evidence for every action."
 description: "devlocal Part 2: the agent runtime. Ephemeral sandboxed agent runs with persistent identities, per-run credentials, a provider- and harness-agnostic model gateway, layered containment, and end-to-end observability."
-status: upcoming
-stack:
+date: 2026-11-02
+series: devlocal
+part: 2
+project: /projects/devlocal/
+topics:
   - Kubernetes
   - kagent
   - gVisor
@@ -13,8 +15,6 @@ stack:
   - OpenTelemetry
   - Vault PKI
 ---
-
-[← Part 1: The Boundary](/projects/devlocal/boundary/) · [devlocal overview](/projects/devlocal/)
 
 ## The Problem
 
@@ -26,7 +26,7 @@ devlocal splits the two. **The agent's identity persists. Its runtime doesn't.**
 
 ## Where Agents Run
 
-Agents run as ephemeral pods in a single-node Kubernetes cluster inside their own VM on the workload hypervisor described in [Part 1](/projects/devlocal/boundary/). Every part of that placement is deliberate.
+Agents run as ephemeral pods in a single-node Kubernetes cluster inside their own VM on the workload hypervisor described in [Part 1](/musings/devlocal-the-boundary/). Every part of that placement is deliberate.
 
 - **Not on the GPU nodes.** The GPU nodes hold model weights and inference engines and nothing else. Their memory belongs to models, and a sandbox escape lands nowhere near the hardware that serves every model.
 - **Not near the root of trust.** Vault, the PKI and SSO live on a different physical machine. An escape that defeats every layer below still lands on a box without Vault.
@@ -250,6 +250,3 @@ Citadel's own Linux test suite covers the rest: an escape corpus run against the
 - **Memory is the binding limit.** Pods hold memory only while a task runs, and warm pools trade a little idle memory for fast starts. The agents VM's CPU and memory are capped so an agent's build can't starve the forge or the log store.
 - **gVisor costs speed on file-heavy builds.** That's the price of a user-space kernel between agent code and the host, and the right price for code nobody here wrote.
 
----
-
-[← Part 1: The Boundary](/projects/devlocal/boundary/) · [devlocal overview](/projects/devlocal/) · [Citadel →](/projects/citadel/)

@@ -1,0 +1,4 @@
+[
+  { "from": "/projects/devlocal/boundary/", "to": "/musings/devlocal-the-boundary/", "title": "devlocal, Part 1: The Boundary" },
+  { "from": "/projects/devlocal/agents/", "to": "/musings/devlocal-agents-as-tenants/", "title": "devlocal, Part 2: Agents as Tenants" }
+]

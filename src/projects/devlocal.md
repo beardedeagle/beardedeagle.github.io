@@ -93,8 +93,10 @@ Amber marks every place untrusted code or untrusted networks meet the lab: the e
 
 ## The Write-ups
 
-- **[Part 1 · The Boundary](/projects/devlocal/boundary/)**: the network. Trust zones, the single way in, layered rule sets, encryption on every hop and its named exceptions, the CI enclave, storage that treats its own backup host as hostile, and visibility inside hosts.
-- **[Part 2 · Agents as Tenants](/projects/devlocal/agents/)**: the agent runtime. Persistent identity with ephemeral execution, the layers around every agent run, credentials that live only as long as the task, a provider- and harness-agnostic model gateway, and the evidence every run leaves behind.
+The full design is a two-part series in [Musings](/musings/).
+
+- **[Part 1 · The Boundary](/musings/devlocal-the-boundary/)**: the network. Trust zones, the single way in, layered rule sets, encryption on every hop and its named exceptions, the CI enclave, storage that treats its own backup host as hostile, and visibility inside hosts.
+- **[Part 2 · Agents as Tenants](/musings/devlocal-agents-as-tenants/)**: the agent runtime. Persistent identity with ephemeral execution, the layers around every agent run, credentials that live only as long as the task, a provider- and harness-agnostic model gateway, and the evidence every run leaves behind.
 
 ## Role in the Stack
 
