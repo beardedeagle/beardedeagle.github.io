@@ -1024,41 +1024,50 @@ img { max-width: 100%; height: auto; display: block; }
   max-width: none !important;
 }
 
-.diagram-expand {
+/* Toolbar: zoom out, fit, zoom in, expand. Real buttons, so the diagram is
+   fully usable from the keyboard. */
+.diagram-tools {
   position: absolute;
   top: var(--sp-sm);
   right: var(--sp-sm);
   z-index: 1;
+  display: flex;
+  gap: var(--sp-xs);
+}
+.diagram-zoom { display: flex; gap: 2px; }
+.diagram-btn {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 500;
+  line-height: 1.2;
+  min-width: 2rem;
   color: var(--text-primary);
   background: var(--bg-raised);
   border: 1px solid var(--border-default);
   border-radius: 3px;
-  padding: 0.3rem 0.65rem;
+  padding: 0.3rem 0.55rem;
   cursor: pointer;
 }
-.diagram-expand:hover { border-color: var(--accent); color: var(--accent); }
-.diagram-expand:focus-visible,
-.diagram-dialog__close:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.diagram-btn:hover { border-color: var(--accent); color: var(--accent); }
+.diagram-btn:focus-visible,
+.diagram-dialog__close:focus-visible,
+.mermaid-container .mermaid.is-zoomable:focus-visible,
+.diagram-dialog__stage:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.mermaid-container .mermaid.is-zoomable:focus:not(:focus-visible),
+.diagram-dialog__stage:focus:not(:focus-visible) { outline: none; }
 
-/* svg-pan-zoom's built-in controls, recoloured for the dark theme. The library
-   injects its own black-on-white rules inside each SVG, so these are scoped
-   one level deeper to win. */
-.mermaid-container .svg-pan-zoom-control,
-.diagram-dialog .svg-pan-zoom-control { cursor: pointer; fill-opacity: 1; }
-.mermaid-container .svg-pan-zoom-control-background,
-.diagram-dialog .svg-pan-zoom-control-background {
-  fill: var(--bg-raised);
-  fill-opacity: 0.95;
-  stroke: var(--border-default);
-  stroke-width: 24;
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
-.mermaid-container .svg-pan-zoom-control-element,
-.diagram-dialog .svg-pan-zoom-control-element { fill: var(--text-secondary); }
-.mermaid-container .svg-pan-zoom-control:hover .svg-pan-zoom-control-element,
-.diagram-dialog .svg-pan-zoom-control:hover .svg-pan-zoom-control-element { fill: var(--accent); }
 
 .diagram-dialog {
   width: calc(100vw - 2rem);
@@ -1099,6 +1108,7 @@ img { max-width: 100%; height: auto; display: block; }
   color: var(--text-secondary);
   white-space: nowrap;
 }
+.diagram-dialog__bar .diagram-zoom { flex-shrink: 0; }
 .diagram-dialog__close {
   font-family: var(--font-mono);
   font-size: 0.8rem;
@@ -1123,7 +1133,7 @@ html.has-diagram-dialog { overflow: hidden; }
 @media (max-width: 640px) {
   .diagram-dialog { width: 100vw; height: 100dvh; border-radius: 0; border: 0; }
   .diagram-dialog__hint { display: none; }
-  .diagram-dialog__close { margin-left: auto; }
+  .diagram-dialog__bar .diagram-zoom { margin-left: auto; }
 }
 
 /* ==========================================================================
