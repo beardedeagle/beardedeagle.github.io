@@ -266,7 +266,7 @@ img { max-width: 100%; height: auto; display: block; }
   opacity: 1;
 }
 
-/* Home intro: hero on the left, latest writing in the open space on the right */
+/* Home intro: hero on the left, latest musings in the open space on the right */
 .home-intro {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(15rem, 19rem);
@@ -346,7 +346,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 /* ==========================================================================
-   Writing: index list and post pages
+   Musings: index list and post pages
    ========================================================================== */
 
 .writing-list {

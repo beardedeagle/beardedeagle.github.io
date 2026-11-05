@@ -15,9 +15,9 @@ export default function(eleventyConfig) {
       .sort((a, b) => (a.data.order || 999) - (b.data.order || 999));
   });
 
-  // Collection: long-form writing, newest first; parts of one series in order
+  // Collection: musings (long-form posts), newest first; parts of one series in order
   eleventyConfig.addCollection("posts", function(collectionApi) {
-    return collectionApi.getFilteredByGlob("src/writing/*.md")
+    return collectionApi.getFilteredByGlob("src/musings/*.md")
       .sort((a, b) => (b.date - a.date) || ((a.data.part || 0) - (b.data.part || 0)));
   });
 

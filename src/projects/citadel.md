@@ -40,4 +40,4 @@ The current focus includes agentic and autonomous workflows because that is wher
 
 ## In Practice
 
-[devlocal](/projects/devlocal/) runs Citadel as the containment boundary for every agentic engineer. Citadel wraps the harness inside each agent container, holds the run's credentials so the harness never touches them, and brokers egress against each agent's own allowlist. The full design is in [devlocal, Part 2: Agents as Tenants](/writing/devlocal-agents-as-tenants/).
+[devlocal](/projects/devlocal/) runs Citadel as the containment boundary for every agentic engineer. Citadel wraps the harness inside each agent container, holds the run's credentials so the harness never touches them, and brokers egress against each agent's own allowlist. The full design is in [devlocal, Part 2: Agents as Tenants](/musings/devlocal-agents-as-tenants/).

@@ -34,12 +34,12 @@ layout: layouts/base.njk
     {{ content | safe }}
   </div>
 
-  <nav class="post__nav" aria-label="More writing">
+  <nav class="post__nav" aria-label="More musings">
     {% for p in seriesPosts %}
       {% if p.data.part == part - 1 %}<a class="post__nav-prev" href="{{ p.url }}">← {{ p.data.title }}</a>{% endif %}
       {% if p.data.part == part + 1 %}<a class="post__nav-next" href="{{ p.url }}">{{ p.data.title }} →</a>{% endif %}
     {% endfor %}
-    <a class="post__nav-all" href="/writing/">All writing</a>
+    <a class="post__nav-all" href="/musings/">All musings</a>
   </nav>
 </article>
 

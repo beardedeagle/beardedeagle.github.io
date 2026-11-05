@@ -33,7 +33,7 @@ Every control on this page exists because of at least one of these adversaries.
 | Compromised edge host | A route to backends or secrets | The edge holds no secrets and reaches exactly one listener, over mTLS, through one firewall rule. |
 | Compromised tailnet coordinator | A rogue node, or impersonation of the edge | SSO doesn't depend on the coordinator, and clients verify the edge's certificate. A rogue node gets a login page, not a service. |
 | Malicious CI job | Lateral movement, exfiltration, persistence | Three independent filters, hosts that only jail, and HTTPS-only egress with private ranges denied first. |
-| Compromised agent | Credentials, other agents, the root of trust | [Part 2](/writing/devlocal-agents-as-tenants/). Nothing to steal, nowhere to go, and evidence of every attempt. |
+| Compromised agent | Credentials, other agents, the root of trust | [Part 2](/musings/devlocal-agents-as-tenants/). Nothing to steal, nowhere to go, and evidence of every attempt. |
 | Compromised service | An east/west pivot toward Vault | One VM and VLAN per service group, every hop through the firewall, certificates that name only their holder. |
 
 Two risks are accepted deliberately. Root on a single host is game over *for that host*, and the design's job is to keep it from spreading, not to pretend it can't happen. Copies a host produces for the sensor are trusted only as far as that host, which is why switch mirrors remain the independent record of traffic between hosts.
@@ -167,7 +167,7 @@ Rules come in families, and each family is enforced by a different device. A flo
 | C | The CI firewall | Everything entering or leaving the CI enclave |
 | H | The x86 CI host | What its runner VMs may reach. The macOS CI host enforces the same with its own packet filter. |
 | W | The workload hypervisor | Layer-2 isolation between VMs, above |
-| K | The agents VM node | What agent pods may reach, in [Part 2](/writing/devlocal-agents-as-tenants/) |
+| K | The agents VM node | What agent pods may reach, in [Part 2](/musings/devlocal-agents-as-tenants/) |
 | I | Layer 2 inside one zone | Flows that never touch the firewall, each tested to stay on layer 2 |
 
 ### Between zones (X)
@@ -248,7 +248,7 @@ Anything that can't meet the rule gets an E-number, a reason and its containment
 | E06 | Windows runner VM time | Its time service sends plain NTP outside a domain | The VM syncs from its host over a virtual network that never reaches a cable. The host itself uses NTS. |
 | E07 | Gateway → app over loopback inside one network namespace | The app speaks plain HTTP | Loopback never reaches a veth, so it never leaves the namespace and is never copied. |
 | E09 | Vault and SSO bootstrap on one-member host bridges | The bootstrap runs before TLS material exists | On the authority host, which runs no span. |
-| E11 | Agent harness → Citadel inside one container | Harness runtimes call a plain base URL; handing them a client key would break the secret boundary | Process-local inside the container. Citadel attaches the run's identity before anything leaves it. See [Part 2](/writing/devlocal-agents-as-tenants/). |
+| E11 | Agent harness → Citadel inside one container | Harness runtimes call a plain base URL; handing them a client key would break the secret boundary | Process-local inside the container. Citadel attaches the run's identity before anything leaves it. See [Part 2](/musings/devlocal-agents-as-tenants/). |
 | E12 | Kubelet health probes to pods on the same node | Probes are plain HTTP from the node's namespace | Never leaves the agents VM, hits only health paths, never copied. |
 
 Mirror links carry copies of traffic, not a hop of their own. Every plaintext exception is filtered out before anything is copied, so the capture fabric carries only ciphertext and metadata.
@@ -358,7 +358,7 @@ Extended packet numbering isn't optional. At 200 Gb/s with 4 KB frames the link 
 
 **Gate 4 · East/west visibility.** A 60-second flow between two containers in one VM arrives at the sensor whole, with zero missed bytes. No plaintext reaches the sensor through the copies, a flood is absorbed by the policer, and every VM's canary is live.
 
-**Gate 5 · Agent containment.** See [Part 2](/writing/devlocal-agents-as-tenants/).
+**Gate 5 · Agent containment.** See [Part 2](/musings/devlocal-agents-as-tenants/).
 
 **Gate 6 · Authority host fitness.** Memory tests and a multi-day soak with zero logged memory faults before a unit holds Vault, PKI and SSO. The deny half runs the same log query over a window where faults are known to exist, proving the check can fail.
 

@@ -26,7 +26,7 @@ devlocal splits the two. **The agent's identity persists. Its runtime doesn't.**
 
 ## Where Agents Run
 
-Agents run as ephemeral pods in a single-node Kubernetes cluster inside their own VM on the workload hypervisor described in [Part 1](/writing/devlocal-the-boundary/). Every part of that placement is deliberate.
+Agents run as ephemeral pods in a single-node Kubernetes cluster inside their own VM on the workload hypervisor described in [Part 1](/musings/devlocal-the-boundary/). Every part of that placement is deliberate.
 
 - **Not on the GPU nodes.** The GPU nodes hold model weights and inference engines and nothing else. Their memory belongs to models, and a sandbox escape lands nowhere near the hardware that serves every model.
 - **Not near the root of trust.** Vault, the PKI and SSO live on a different physical machine. An escape that defeats every layer below still lands on a box without Vault.
