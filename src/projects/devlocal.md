@@ -42,7 +42,7 @@ Everything around them is built on rules that hold everywhere, not just at the p
 
 {% mermaid %}
 flowchart TB
-    DEV["My devices<br/>tailnet clients"] -->|"WireGuard"| EDGE["Edge box · DMZ<br/>edge proxy only, no secrets"]
+    DEV["My devices<br/>tailnet clients"] -->|"WireGuard"| EDGE["Edge box · DMZ<br/>edge proxy only, no Vault credential"]
     CTRL["Off-site tailnet<br/>coordinator + relay"] -.->|"edge dials out"| EDGE
     EDGE -->|"mTLS · one firewall rule"| FW["Lab firewall · OPNsense<br/>zones · default deny · logged"]
     FW --> ING["Ingress VM<br/>SSO gate · route per group"]
@@ -85,7 +85,7 @@ Amber marks every place untrusted code or untrusted networks meet the lab: the e
 
 **One model gateway. GPUs do inference and nothing else.** The GPU nodes hold model weights and inference engines, never agent code. Agents and services reach models only through a single gateway that owns provider keys, routing, budgets and spend. Local models never silently fall back to a cloud provider.
 
-**East/west is visible, not assumed.** Switch mirrors cover everything that crosses a wire. A span component inside every VM copies container-to-container traffic to the sensor, with every known plaintext exception filtered out before anything leaves the host.
+**East/west is visible, not assumed.** Switch mirrors cover traffic between hosts. A span component inside every VM copies container-to-container traffic to the sensor, with every known plaintext exception filtered out before anything leaves the host.
 
 **Recovery never depends on what it recovers.** A break-glass path reaches every management interface without DNS, SSO, Vault or the tailnet. The keys and LUKS headers that unlock storage live in offline escrow, because Vault's own backups live on that storage.
 
