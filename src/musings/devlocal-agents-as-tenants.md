@@ -205,7 +205,7 @@ python -I -c "import importlib.metadata as m, json; \
 # expect the pinned commit
 
 # Deny (repo): no bare-name requirement exists
-grep -inE '^[[:space:]]*liteagents[[:space:]]*(\[[^]]*\])?[[:space:]]*([=<>~!;]|$)' requirements.lock
+grep -inE '^[[:space:]]*liteagents[[:space:]]*(\[[^]]*\])?([[:space:]]*([=<>~!;\\]|$)|[[:space:]]+[#-])' requirements.lock
 # expect no output
 ```
 
