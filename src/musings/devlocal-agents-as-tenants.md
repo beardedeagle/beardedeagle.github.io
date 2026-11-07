@@ -42,7 +42,7 @@ flowchart TB
     DSP -->|"sign run cert under the agent's own role"| VLT["Vault PKI<br/>authority host"]
     DSP -->|"mint and revoke run key"| GW["Model gateway VM<br/>aliases · budgets · spend · provider keys"]
     subgraph POD["Agent container · gVisor sandbox"]
-        H["Harness<br/>runs inside Citadel · no secrets"] -->|"every outbound call"| CIT["Citadel<br/>holds run cert + run key"]
+        H["Harness<br/>runs inside Citadel · no credentials"] -->|"every outbound call"| CIT["Citadel<br/>holds run cert + run key"]
     end
     K8S --> POD
     CIT -->|"agent listener · mTLS + SSO match"| ING["Ingress VM"]
@@ -188,7 +188,7 @@ Agents have no direct internet. Neither does the agents node.
 | Logs | Pods, kagent, the gateway | Loki, labelled by agent, task and harness |
 | Approvals and task states | kagent's task store | Every decision recorded with its task |
 
-**Prompt content stays out by default.** Message capture is off. A single run key can opt in for debugging, into a short-retention tenant, by explicit operator choice. Agents never hold secrets, so content can't carry one, but it can carry source code and mail, which is why capture is opt-in.
+**Prompt content stays out by default.** Message capture is off. A single run key can opt in for debugging, into a short-retention tenant, by explicit operator choice. Agents never hold platform credentials, but what they handle can still be sensitive: source, mail, tool output. That's why capture is opt-in.
 
 **Two records, two jobs.** Every hop is mTLS, so the network sensor sees metadata only. The telemetry pipeline is the record of what an agent *did*. The sensor, fed in-node copies by Citadel's span component, is the record that *nothing else talked*.
 
@@ -205,7 +205,7 @@ python -I -c "import importlib.metadata as m, json; \
 # expect the pinned commit
 
 # Deny (repo): no bare-name requirement exists
-grep -nE '^liteagents([=<>~ ]|$)' requirements.lock
+grep -inE '^[[:space:]]*liteagents[[:space:]]*(\[[^]]*\])?[[:space:]]*([=<>~!;]|$)' requirements.lock
 # expect no output
 ```
 
@@ -222,7 +222,7 @@ The agent runtime is held to this gate on the live system. Every permit has a ma
 | The harness holds nothing | The harness's calls leave through Citadel with the run's identity attached | No run key or certificate is readable from the harness, no service-account token exists, and no environment variable name looks like a credential |
 | The node is out of reach | The dispatcher may create sandboxed agents | Pods can't reach the kubelet, API server, etcd, the hypervisor or the storage network |
 | Admission holds | A conforming pod is admitted | Host networking, host paths, privilege, a missing RuntimeClass and outside images are all rejected |
-| Citadel fails closed | Pods start with Citadel running | With Citadel stopped, a new pod never becomes ready |
+| Citadel fails closed | With Citadel running, a conforming pod is admitted and starts | With Citadel stopped, a new pod is refused at admission and nothing is scheduled |
 | Runs are ephemeral | After a run, no pod, sandbox or key for that task remains | With the dispatcher stopped mid-run, the sandbox is still reaped on schedule and the key stops working at expiry |
 | No prompt content in traces | One trace per task holds controller, harness and gateway spans | A search for message-content attributes returns nothing |
 
@@ -236,13 +236,13 @@ Citadel's own Linux test suite covers the rest: an escape corpus run against the
 
 **Defense in depth around code nobody here wrote.** A process sandbox, a user-space kernel, a hardened pod spec, admission policy, node rules, per-pod firewall rules and Citadel each stop something the others don't. No single layer is trusted to be the boundary.
 
-**One gateway between agents and every model.** Provider keys, routing, budgets and spend live in one place that agents can call but never administer. Swapping a provider or a harness is configuration, never a security change.
+**One gateway between agents and every model.** Provider keys, routing, budgets and spend live in one place that agents can call but never administer. Swapping a provider or a harness is configuration, never a change to the security boundary.
 
 **The firewall knows which agent is talking.** A routed pod network with pinned source addresses gives every agent run its own address on the wire, so firewall rules, logs and sensor data name the run, not the node.
 
 **Egress is brokered outside the sandbox.** The allowlist that matters is enforced by Citadel on a different VM, where nothing inside the agent's pod can reach it.
 
-**Every run leaves evidence.** Traces, logs, spend and approvals join on the task ID, and the sensor independently records everything that crossed a wire.
+**Every run leaves evidence.** Traces, logs, spend and approvals join on the task ID, and the sensor independently records the run's traffic between hosts.
 
 ## Accepted Trade-offs
 

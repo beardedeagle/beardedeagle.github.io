@@ -30,7 +30,7 @@ Every control on this page exists because of at least one of these adversaries.
 | Adversary | What they want | What stops them |
 | --- | --- | --- |
 | Internet attacker | A way in | Zero inbound. The only path in is a tailnet the lab dials out to, followed by SSO. |
-| Compromised edge host | A route to backends or secrets | The edge holds no secrets and reaches exactly one listener, over mTLS, through one firewall rule. |
+| Compromised edge host | A route to backends or secrets | The edge holds no Vault credential, only a short-lived certificate, and reaches exactly one listener, over mTLS, through one firewall rule. |
 | Compromised tailnet coordinator | A rogue node, or impersonation of the edge | SSO doesn't depend on the coordinator, and clients verify the edge's certificate. A rogue node gets a login page, not a service. |
 | Malicious CI job | Lateral movement, exfiltration, persistence | Three independent filters, hosts that only jail, and HTTPS-only egress with private ranges denied first. |
 | Compromised agent | Credentials, other agents, the root of trust | [Part 2](/musings/devlocal-agents-as-tenants/). Nothing to steal, nowhere to go, and evidence of every attempt. |
@@ -100,7 +100,7 @@ The DMZ and the private side never share a switch; they meet only inside the fir
 | Service groups | Forge (git, gists, package registry), memory, mail, ITSM, observability, one VLAN each | Ingress only, plus named scrapes, log pushes, and CI runners to the forge. |
 | Model gateway | The model gateway and its database | Ingress, the memory service and the dispatcher. |
 | Agent control | The agent dispatcher | Nothing. It only starts connections. |
-| Agents | The agents VM node and a routed pod network behind it | The cluster API from the dispatcher alone, the UI through ingress. Pods accept nothing. |
+| Agents | The agents VM node and a routed pod network behind it | The cluster API from the dispatcher alone, the UI through ingress. Pods accept no inbound connections. |
 | Workload management | The hypervisor itself | Break-glass SSH, certificate push, metrics scrapes. |
 | Cluster | GPU nodes and storage | Nothing from the DMZ. Bulk traffic stays on layer 2. |
 | Management | BMCs, switch UIs, the KVM console, the sensor's UI | The break-glass path only. No internet in either direction. |
@@ -393,7 +393,7 @@ python3 -I -c "from scapy.all import *; sendp(Ether(dst='<fw-mac>')/Dot1Q(vlan=<
 
 **GPU nodes serve models and nothing else.** Agents run in their own VM on the workload host. Model memory belongs to models, and a sandbox escape lands nowhere near the hardware that serves every model.
 
-**Two storage hosts with pull replication.** A backup host that pulls ciphertext and never holds the primary's keys leaves no shared-fate path between the copies.
+**Two storage hosts with pull replication.** A backup host that pulls ciphertext and never holds the primary's keys leaves no shared key or delete path between the copies.
 
 **A small fanless box at the edge.** The edge does almost nothing by design, so it runs on hardware sized for that. The capacity it would have wasted runs the workload hypervisor instead.
 
@@ -406,7 +406,7 @@ The details that separate a design that looks right from one that holds:
 - **Every Linux bridge grows an IPv6 link-local address.** Any host service listening on the IPv6 wildcard answers every guest on that bridge. Hypervisors that don't need IPv6 don't run it.
 - **Pods hide behind their node by default.** Common CNIs SNAT pod traffic to the node's address, so the firewall can't tell an agent from the kubelet. A routed, unmasqueraded pod network fixes that.
 - **Broad PKI roles are a lateral-movement tool.** A role that signs any subdomain of the internal zone lets a compromised VM obtain a certificate for Vault's name. Every host gets a role for its exact names.
-- **6 GHz Wi-Fi mandates WPA3-SAE with protected management frames.** Putting the lab's only wireless hop on 6 GHz enforces both without forcing WPA3-only on everything else. Saving no fallback bands means a lost link fails closed instead of downgrading.
+- **6 GHz has no WPA2 or open mode.** WPA3 and protected management frames are mandatory there. The bridge runs SAE on 6 GHz only, so the lab's one wireless hop gets WPA3 without forcing WPA3-only on everything else. Saving no fallback bands means a lost link fails closed instead of downgrading.
 - **NTS has a chicken-and-egg problem** on boxes without a battery-backed clock: certificate validity can't be checked before the clock is set. Skip only the dates, only until the first sync, with trust pinned to the intended servers.
 - **Some vendors ship updates over plain HTTP on purpose.** Signed, hashed files over a CDN are a chain-of-custody decision, not an oversight. It gets written down as an exception and contained, not papered over.
 - **Postgres data checksums are not on by default in every release.** Verify, enable them with the cluster stopped, and prove they catch a flipped byte.
