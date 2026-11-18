@@ -1,6 +1,6 @@
 ---
 title: "devlocal, Part 1: The Boundary"
-summary: "Trust zones, one way in, encryption on every hop, and rule sets that each deny on their own. The devlocal network, built to contain north/south and east/west threats alike."
+summary: "Where devlocal draws its trust boundaries, and what each one buys: trust zones, one way in, encryption on every hop, and rule sets that each deny on their own, against north/south and east/west threats alike."
 description: "devlocal Part 1: the network boundary. Trust zones, zero-inbound access, layered rule sets, named encryption exceptions, a CI enclave, encrypted storage, and in-host visibility for the sensor."
 date: 2026-11-02
 series: devlocal
@@ -364,7 +364,7 @@ Extended packet numbering isn't optional. At 200 Gb/s with 4 KB frames the link 
 
 ## How the Tests Are Written
 
-Every permit has a matching deny. Every test is an exact command run from a named host. No command prints a secret.
+Every permit has a matching deny. Every test is an exact command run from a named host. No command prints a secret. The strongest test in the set is the CI enclave's independent-denial check: the forbidden flow is opened on the other two filters, and the filter under test has to deny and log it on its own.
 
 ```sh
 # Permit (ingress VM): reach the forge through the firewall with the proxy's cert

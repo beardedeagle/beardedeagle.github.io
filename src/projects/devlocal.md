@@ -1,10 +1,10 @@
 ---
 layout: layouts/project.njk
 title: devlocal
-tagline: "A self-hosted engineering shop staffed by AI engineers. Hired, onboarded and handed issues like anyone else, and contained like nothing else: trust-tiered network, encryption on every hop, ephemeral sandboxed runs."
+tagline: "A self-hosted engineering shop staffed by AI engineers. Each agent has a durable identity; each task runs in a disposable sandbox with credentials that expire with the run."
 description: "devlocal: a self-hosted engineering shop where AI agents are hired, onboarded and assigned issues like any other engineer, inside a lab secured on the assumption that every one of them could be compromised."
 status: upcoming
-order: 1.5
+order: 0.5
 stack:
   - Elixir
   - OPNsense

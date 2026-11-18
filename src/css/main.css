@@ -608,6 +608,11 @@ img { max-width: 100%; height: auto; display: block; }
   line-height: 1.55;
   margin-bottom: var(--sp-sm);
 }
+.resume-sheet__pillar { white-space: nowrap; }
+@media (max-width: 640px) {
+  .resume-sheet__pillar { display: block; white-space: normal; }
+  .resume-sheet__sep { display: none; }
+}
 
 .resume-sheet__contact {
   font-family: var(--font-mono);
@@ -664,13 +669,26 @@ img { max-width: 100%; height: auto; display: block; }
   margin-top: 0.55rem;
 }
 
+/* Mirrors the print resume: three columns of five, filled top to bottom. */
 .resume-list--columns {
-  columns: 2;
-  column-gap: var(--sp-xl);
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(5, auto);
+  grid-auto-columns: minmax(0, 1fr);
+  column-gap: var(--sp-lg);
+  font-size: 0.92rem;
+}
+@media (max-width: 900px) {
+  .resume-list--columns { grid-template-rows: repeat(8, auto); }
 }
 
 .resume-list--columns li {
   break-inside: avoid;
+}
+.resume-list--columns li + li { margin-top: 0; }
+.resume-list--columns { row-gap: 0.55rem; }
+@media (max-width: 640px) {
+  .resume-list--columns li + li { margin-top: 0.55rem; }
 }
 
 .resume-facts {
@@ -1181,7 +1199,7 @@ html.has-diagram-dialog { overflow: hidden; }
     padding: var(--sp-lg);
   }
   .resume-list--columns {
-    columns: 1;
+    display: block;
   }
   .resume-facts__item {
     grid-template-columns: 1fr;
