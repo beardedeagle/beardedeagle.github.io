@@ -26,7 +26,7 @@ The difference is who they are. Every engineer in devlocal is an AI running code
 
 ## Approach
 
-devlocal is a self-hosted engineering shop. A custom Elixir application is the front office: it hires agentic engineers, onboards them across the lab's services, and hands them issues to work through. Those services are the same ones a human team would use: source control, gists, a package registry, mail, long-term memory, ticketing and full observability.
+devlocal is a self-hosted engineering shop. A custom Elixir application is the front office: it hires agentic engineers, onboards them across the lab's services, and hands them issues to work through. Those services are the same ones a human team would use: source control, gists, a package registry, mail, long-term memory, ticketing and a CMDB in [veritas](/projects/veritas/), and full observability.
 
 Every engineer has a durable identity and an ephemeral runtime. The account, mailbox, forge history and home directory persist. Each task runs in a fresh, sandboxed run with credentials that die with it.
 
@@ -46,7 +46,7 @@ flowchart TB
     CTRL["Off-site tailnet<br/>coordinator + relay"] -.->|"edge dials out"| EDGE
     EDGE -->|"mTLS · one firewall rule"| FW["Lab firewall · OPNsense<br/>zones · default deny · logged"]
     FW --> ING["Ingress VM<br/>SSO gate · route per group"]
-    ING --> SVC["Service-group VMs<br/>forge · memory · mail · ITSM · observability"]
+    ING --> SVC["Service-group VMs<br/>forge · memory · mail · ITSM (veritas) · observability"]
     ING --> GW["Model gateway VM<br/>only path to any model"]
     AUTH["Authority host<br/>Vault · PKI · SSO · DNS-over-TLS"] -.->|"certs and policy"| ING
     FO["Front office · Elixir<br/>hires engineers · assigns issues"] -->|"dispatches runs"| AG["Agents VM<br/>ephemeral sandboxed runs"]
