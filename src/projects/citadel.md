@@ -1,7 +1,7 @@
 ---
 layout: layouts/project.njk
 title: Citadel
-tagline: "Host-local EDR/DLP with immediate enforcement. Governs actions, constrains execution, inspects risky content, and records what happened."
+tagline: "Host-local EPP/DLP with immediate enforcement. Governs actions, constrains execution, inspects risky content, and records what happened."
 status: upcoming
 order: 5
 stack:
@@ -20,7 +20,7 @@ Citadel exists because intent is not a security boundary. The boundary has to li
 
 ## Approach
 
-Citadel is a host-local EDR/DLP platform with an immediate-enforcement posture. It governs actions before they run, constrains execution at runtime, inspects risky content flows, outbound activity, browser mediated workflows, and leaves behind a usable audit trail.
+Citadel is a host-local EPP/DLP platform with an immediate-enforcement posture. It governs actions before they run, constrains execution at runtime, inspects risky content flows, outbound activity, browser mediated workflows, and leaves behind a usable audit trail.
 
 The current focus includes agentic and autonomous workflows because that is where existing security products are especially weak, but the model is broader than that. Citadel is meant to do more than observe and alert: it is built to enforce, contain, and act locally when a workflow crosses a boundary, instead of only telling you after the damage is done.
 

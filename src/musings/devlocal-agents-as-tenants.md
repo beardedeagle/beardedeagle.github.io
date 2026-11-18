@@ -156,14 +156,27 @@ sequenceDiagram
     P->>G: Model calls via Citadel and ingress
     P-->>M: Tool needs approval
     M-->>P: Approve or reject
+    alt Out-of-scope call
+        P-xP: Denied by the layers around the run, logged under the task ID
+    end
     P->>P: Save outputs to forge, mail or memory
     D->>K: Delete SandboxAgent
     D->>G: Revoke run key
 {% endmermaid %}
 
-Only the task itself and saving its outputs run agent code. Everything a task produces lands in the forge, mail or memory before teardown, because the controller's session state is disposable by design. If the dispatcher dies mid-run, two backstops still end the run: the sandbox is deleted at its scheduled time, and the run key expires on its own. A failed run is retried from its original request, never resumed from a half-trusted state.
+Only the task itself and saving its outputs run agent code. Everything a task produces lands in the forge, mail or memory before teardown, because the controller's session state is disposable by design. If the dispatcher dies mid-run, two backstops still end the run: the sandbox is deleted at its scheduled time, and the run key expires on its own. A failed run is retried from its original request, never resumed from a half-trusted state. An out-of-scope call is denied by the layers around the run and logged under the task ID, so the refusal sits in the same trace as everything else the run did.
 
 Agent homes are per-agent encrypted volumes, each its own persistent volume. Admission rejects any pod that names another agent's claim, and the hypervisor backs the volumes up to primary storage over the encrypted backup path.
+
+### What Outlives the Run
+
+Identity, memory and authority are three separate decisions in devlocal. The first two outlive the run. Authority never does, and identity alone opens nothing.
+
+| | What | Outlives the run? |
+| --- | --- | --- |
+| **Identity** | SSO account, mailbox, forge account, the agent's own PKI role | Yes. It names the engineer, and it opens nothing without a run certificate. |
+| **Work and memory** | Home volume, forge history, mail, the memory service | Yes. It's what the engineer has done and learned. |
+| **Authority** | Run key, run certificate, sandbox | No. Every run starts with none and gets its access from the dispatcher. |
 
 ## Egress
 
@@ -230,7 +243,7 @@ Citadel's own Linux test suite covers the rest: an escape corpus run against the
 
 ## Key Design Decisions
 
-**Credential-less agents.** Citadel sits between the harness and everything it talks to, inside the same container. Secrets never make it past Citadel, so a fully compromised harness has nothing to exfiltrate but access that ends with the run.
+**Credential-less agents.** Citadel sits between the harness and everything it talks to, inside the same container. Secrets never make it past Citadel. A fully compromised harness can use the run's access but never hold the credentials behind it, and that access ends with the run. Teardown ends the access; it doesn't undo what the run already did.
 
 **Identity is durable, execution is disposable.** What an agent *is* lives in SSO, mail, the forge and its home volume. What an agent *runs* lives in a pod that exists for one task and is gone afterward, credentials included.
 
