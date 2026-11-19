@@ -343,6 +343,9 @@
       refit(entry.instance);
     } catch (err) {
       pre.classList.remove('is-zoomable');
+      // Without is-zoomable there's no toolbar padding, so recompute the height
+      // rather than keep the space reserved for it.
+      fitHeight(pre, aspect);
       pre.removeAttribute('tabindex');
       tools.querySelector('.diagram-zoom').remove();
       console.error('diagram pan/zoom failed', err);

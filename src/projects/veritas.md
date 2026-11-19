@@ -78,7 +78,8 @@ Everything above is **Veritas Core**. The product is four parts, and the other t
 - **Veritas Discovery** *(working name)*. Endpoint management. Enrolled collectors report what each machine actually runs, with where and when it was observed, and Core reconciles that into the CMDB, so the CMDB is fed by the estate rather than by whoever remembered to update it. Seeing a machine never grants the right to act on it: management actions are authorized separately.
 - **Veritas KB.** Documentation and knowledge management as a first-class part of the product, not a wiki bolted on beside it.
 - **Veritas Vault.** Native custody for secrets and protected data. It's built in the same codebase but deployed in isolation: nothing else in veritas has a direct path to its implementation, its storage or its keys, and applications reach it only through an authorized GraphQL API. An optional privileged UI plugin brings it into Core, and Vault still authorizes every operation itself, because a page being visible isn't permission.
-- **Single sign-on and the rest of identity.** OIDC and SAML, LDAP and SCIM, MFA and API tokens are specified and land as adapters behind ports that already exist, not as changes to the domain.
+
+Core itself gets single sign-on and the rest of identity next: OIDC and SAML, LDAP and SCIM, MFA and API tokens are specified and land as adapters behind ports that already exist, not as changes to the domain.
 
 ## Key Design Decisions
 
