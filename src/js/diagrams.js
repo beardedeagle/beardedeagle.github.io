@@ -129,7 +129,10 @@
   function fitHeight(target, aspect) {
     const width = target.clientWidth > 0 ? target.clientWidth : 720;
     const height = Math.min(width * aspect, window.innerHeight * 0.7);
-    target.style.height = `${Math.max(Math.round(height), 280)}px`;
+    // The toolbar sits in the container's top padding, so the diagram never
+    // renders underneath it; add that padding back so the diagram keeps its size.
+    const pad = parseFloat(window.getComputedStyle(target).paddingTop) || 0;
+    target.style.height = `${Math.max(Math.round(height), 280) + Math.round(pad)}px`;
   }
 
   function fit(instance) {
@@ -340,6 +343,9 @@
       refit(entry.instance);
     } catch (err) {
       pre.classList.remove('is-zoomable');
+      // Without is-zoomable there's no toolbar padding, so recompute the height
+      // rather than keep the space reserved for it.
+      fitHeight(pre, aspect);
       pre.removeAttribute('tabindex');
       tools.querySelector('.diagram-zoom').remove();
       console.error('diagram pan/zoom failed', err);

@@ -1034,6 +1034,8 @@ img { max-width: 100%; height: auto; display: block; }
   width: 100%;
   overflow: hidden;
   cursor: grab;
+  /* Room for the toolbar, so it never covers the top row of a diagram. */
+  padding-top: 2.75rem;
 }
 .mermaid-container .mermaid.is-zoomable:active { cursor: grabbing; }
 .mermaid-container .mermaid.is-zoomable svg {
