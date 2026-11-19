@@ -279,11 +279,18 @@ img { max-width: 100%; height: auto; display: block; }
   min-width: 0;
 }
 
+/* Follows the reader down the intro and stops just above Featured Work: a
+   sticky element can't leave its container, and .home-intro ends where
+   Featured Work begins. top clears the sticky nav. */
 .home-writing {
   justify-self: end;
+  align-self: start;
   text-align: right;
-  padding-top: var(--sp-3xl);
+  margin-top: var(--sp-3xl);
+  margin-bottom: var(--sp-xl);
   min-width: 0;
+  position: sticky;
+  top: 5.5rem;
 }
 
 .home-writing__list {
@@ -332,7 +339,8 @@ img { max-width: 100%; height: auto; display: block; }
   .home-writing {
     justify-self: stretch;
     text-align: left;
-    padding-top: 0;
+    position: static;
+    margin-top: 0;
     margin-bottom: var(--sp-2xl);
   }
   .home-writing__item {
